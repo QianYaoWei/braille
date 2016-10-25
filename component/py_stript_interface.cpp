@@ -1,23 +1,20 @@
 #include "py_stript_interface.h"
 
+bool PyObjectClean(PyObject *obj)
+{
+    if (obj) {
+        Py_DECREF(obj);
+    }
+
+    return true;
+}
+
 PyScriptInterface::PyScriptInterface ()
 {
 }
 
 PyScriptInterface::~PyScriptInterface ()
 {
-    if (_pyModule) {
-        Py_DECREF(_pyModule);
-    }
-
-    if (_pyModuleDict) {
-        Py_DECREF(_pyModuleDict);
-    }
-
-    if (_pFunc) {
-        Py_DECREF(_pFunc);
-    }
-
     Py_Finalize();
 }
 
@@ -43,50 +40,22 @@ bool PyScriptInterface::Init(const std::string &pyFile)
         // 把输入的字符串作为Python代码直接运行，返回
         // 表示成功，-1表示有错。大多时候错误都是因为字符串
         // 中有语法错误。
-        //
+
         PyRun_SimpleString("import sys");
         PyRun_SimpleString("sys.path.append('../script/')");
-
         if ( !LoadScript() ) {
             printf("load script error!\n");
         }
+        
+        PyObjectSptr argsSptr(PyTuple_New(1), PyObjectClean);
+        PyTuple_SetItem(argsSptr.get(),  0,  Py_BuildValue("s", "/Users/terencewei/gitsrc/python-pinyin/file"));
 
-        // PyObject* pArgs = pArgs = Py_BuildValue("ii",  12,  14);
-        // PyObject* pRet = PyEval_CallObject(_pFunc, pArgs);
-
-        PyObject *pArgStr = PyString_FromString("/Users/terencewei/gitsrc/python-pinyin/file");
-        if ( nullptr == pArgStr ) {
-            printf("argstr error\n");
+        if (!_pyFunc || !PyCallable_Check(_pyFunc.get())) { 
+            printf("can't find function\n");
+            break;
         }
 
-        // PyObject* pRet = PyEval_CallObject(_pFunc, pArgStr);
-        PyObject* pRet = PyEval_CallObject(_pFunc, pArgStr);
-
-        // if (pArgStr) {
-        //     Py_DECREF(pArgStr);
-        // }
-
-        // int a = 0; 
-        // int b = 0;
-        // if (pRet && PyArg_ParseTuple(pRet, "ii",  &a, &b)) {
-        //     printf("Function[AddMult] call successful a + b = %d,  a * b = %d\n",  a,  b);
-        //     nRet = 0;
-        // }
-
-        // if (pArgs) Py_DECREF(pArgs);
-
-        // if (_pFunc) Py_DECREF(_pFunc);
-
-        // // 找出函数名为HelloWorld的函数
-        // _pFunc = PyDict_GetItemString(_pyModuleDict,  "HelloWorld");
-        // if (!_pFunc || !PyCallable_Check(_pFunc)) { 
-        //     printf("can't findfunction [HelloWorld]\n");
-        //     break;
-        // }
-
-        // pArgs = Py_BuildValue("(s)",  "magictong");
-        // PyEval_CallObject(_pFunc, pArgs);
-
+        PyEval_CallObject(_pyFunc.get(), argsSptr.get());
     } while (false);
 
     return true;
@@ -95,30 +64,27 @@ bool PyScriptInterface::Init(const std::string &pyFile)
 bool PyScriptInterface::LoadScript()
 {
     // 载入名为PyPlugin的脚本
-    PyObject *pName = PyString_FromString(_pyFileName.c_str());
-    if ( nullptr == pName ) {
+    PyObjectSptr nameSptr(PyString_FromString(_pyFileName.c_str()), PyObjectClean);
+    if (!nameSptr) {
         printf("false\n");
         return false;
     }
-    _pyModule = PyImport_Import(pName);
 
-    if (pName) {
-        Py_DECREF(pName);
-    }
+    _pyModule.reset(PyImport_Import(nameSptr.get()), PyObjectClean);
 
     if (!_pyModule) {
         printf("can't find script\n");
         return false;
     }
 
-    _pyModuleDict = PyModule_GetDict(_pyModule); 
+    _pyModuleDict.reset(PyModule_GetDict(_pyModule.get()), PyObjectClean); 
     if (!_pyModuleDict) {
         return false;
     }
 
     // 找出函数名为FromNLToBraille的函数
-    _pFunc = PyDict_GetItemString(_pyModuleDict, "FromNLToBraille");
-    if (!_pFunc || !PyCallable_Check(_pFunc)) {
+    _pyFunc.reset(PyDict_GetItemString(_pyModuleDict.get(), "FromNLToBraille"), PyObjectClean);
+    if (!_pyFunc || !PyCallable_Check(_pyFunc.get())) {
         printf("can't find function \n");
         return false;
     }

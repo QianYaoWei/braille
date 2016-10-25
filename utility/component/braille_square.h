@@ -46,8 +46,6 @@ enum
     // SQUARE_SCREEN_WIDTH_DISTANCE_FIXEL = 10,
 };
 
-
-
 class BrailleSquare;
 typedef std::shared_ptr<BrailleSquare> BrailleSquareSptr;
 

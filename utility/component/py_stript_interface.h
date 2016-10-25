@@ -2,6 +2,9 @@
 #include "Singleton.h"
 #include <Python.h>
 #include <string>
+#include <memory>
+
+typedef std::shared_ptr<PyObject> PyObjectSptr;
 
 /*
  * =====================================================================================
@@ -13,17 +16,17 @@ class PyScriptInterface : public utility::Singleton<PyScriptInterface>
 {
     public:
         /* ====================  LIFECYCLE     ======================================= */
-        PyScriptInterface ();                             /* constructor */
-        ~PyScriptInterface ();                             /* constructor */
+        PyScriptInterface ();
+        ~PyScriptInterface ();
 
         bool Init(const std::string &pyFile);
         bool LoadScript();
-        // PyObject *PyCall();
     protected:
-        PyObject *_pyModule {nullptr};
-        PyObject *_pyModuleDict {nullptr};
-        PyObject *_pFunc {nullptr};
+        PyObjectSptr _pyModule;
+        PyObjectSptr _pyModuleDict;
+        PyObjectSptr _pyFunc;
 
         std::string _pyFileName;
 }; /* -----  end of class PyScriptInterface  ----- */
 
+bool PyObjectClean(PyObject *obj);

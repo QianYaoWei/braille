@@ -47,6 +47,7 @@ ADD_EXECUTABLE(braille ${SRC_LIST})
 # 公共lib
 SET(COMMONLIB
 python2.7
+sqlite3
 )
 
 TARGET_LINK_LIBRARIES(braille
