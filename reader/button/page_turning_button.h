@@ -16,23 +16,22 @@ enum PageTurningType
  */
 class PageTurningButton : public BrailleSquare
 {
-    public:
-        /* ====================  LIFECYCLE     ======================================= */
-        PageTurningButton ();                             /* constructor */
+public:
+    /* ====================  LIFECYCLE     ======================================= */
+    PageTurningButton ();                             /* constructor */
 
-        // 按下
-        virtual void OnDown();
+    // 按下
+    virtual void OnDown();
 
-        // 按下抬起
-        virtual void OnDownUp();
+    // 按下抬起
+    virtual void OnDownUp();
 
-        // 抬起
-        virtual void OnUp();
+    // 抬起
+    virtual void OnUp();
 
-        // 抬起按下
-        virtual void OnUpDown();
+    // 抬起按下
+    virtual void OnUpDown();
 
-    protected:
-        PageTurningType _type {};
+protected:
+    PageTurningType _type {};
 }; /* -----  end of class PageTurningButton  ----- */
-

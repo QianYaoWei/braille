@@ -1,4 +1,4 @@
-#include "page_turning.h"
+#include "page_turning_button.h"
 
 void PageTurningButton::OnDown()
 {
@@ -33,4 +33,3 @@ void PageTurningButton::OnUpDown()
             break;
     }				/* -----  end switch  ----- */
 }
-
