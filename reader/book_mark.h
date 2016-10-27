@@ -30,7 +30,6 @@ public:
     }
 
 protected:
-
     std::string _filePath;
 
     unsigned int _markPos {0}; // buffer pos

@@ -1,7 +1,25 @@
+/*
+ * =====================================================================================
+ *
+ *       Filename:  braille_square.h
+ *
+ *    Description:  braille square consists of 6 points, every 
+ *                  point has its own two status on or off
+ *
+ *        Created:  2016/10/26 16时03分48秒
+ *       Compiler:  clang
+ *
+ *         Author:  TerenceWei 
+ *          EMAIL:  360326661@qq.com
+ *   Organization:  
+ *
+ * =====================================================================================
+ */
 #pragma once
 #include <vector>
 #include <memory>
 #include "Pos.h"
+#include "TypeDefine.h"
 
 enum BraillePoint
 {

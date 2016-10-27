@@ -46,6 +46,7 @@ ADD_EXECUTABLE(braille ${SRC_LIST})
 
 # 公共lib
 SET(COMMONLIB
+
 python2.7
 sqlite3
 )
@@ -55,4 +56,5 @@ ${COMPONENTS}
 ${COMMONLIB}
 )
 
-#cmake  -DCMAKE_BUILD_TYPE=Debug ..
+#cmake  -D CMAKE_BUILD_TYPE=Debug ..
+#cmake  -D CMAKE_BUILD_TYPE=Release ..

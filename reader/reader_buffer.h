@@ -12,9 +12,7 @@ class ReaderBuffer
         /* ====================  LIFECYCLE     ======================================= */
         ReaderBuffer ();                             /* constructor */
 
-
     protected:
-
     private:
 }; /* -----  end of class ReaderBuffer  ----- */
 

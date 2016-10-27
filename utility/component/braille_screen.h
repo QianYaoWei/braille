@@ -1,3 +1,19 @@
+/*
+ * =====================================================================================
+ *
+ *       Filename:  braille_screen.h
+ *
+ *    Description:  braille screen for blind to touch
+ *
+ *        Created:  2016/10/26 16时02分46秒
+ *       Compiler:  clang
+ *
+ *         Author:  TerenceWei 
+ *          EMAIL:  360326661@qq.com
+ *   Organization:  
+ *
+ * =====================================================================================
+ */
 #pragma once
 
 #include "braille_square.h"
