@@ -39,13 +39,13 @@ public:
 
     virtual void DBFieldRegister() = 0;
 
-    bool SelectFromDB(const std::string &_strTable, OrmDBCallBack *callback);
+    bool SelectFromDB(const std::string &strTable, OrmDBCallBack *callback);
 
-    bool SyncDataToDB(const std::string &_strTable, OrmDBCallBack *callback);
+    bool SyncDataToDB(const std::string &strTable, OrmDBCallBack *callback = nullptr);
 
-    bool InsertToDB(const std::string &_strTable, OrmDBCallBack *callback);
+    bool InsertToDB(const std::string &strTable, OrmDBCallBack *callback = nullptr);
 
-    bool DelFromDB(const std::string &_strTable, OrmDBCallBack *callback);
+    bool DelFromDB(const std::string &strTable, OrmDBCallBack *callback = nullptr);
 
     void AssignField(const char *column, const char *data);
 protected:
@@ -59,9 +59,7 @@ protected:
         _objFieldType[dbField] = filed.GetAnyType();
     }
 
-    std::string _strTable;
     UInt64 _id {0};
-
     std::map<std::string, void *> _objFieldPt;
     std::map<std::string, utility::AnyType> _objFieldType;
 };

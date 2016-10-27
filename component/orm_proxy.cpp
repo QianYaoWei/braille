@@ -5,17 +5,17 @@
 
 using namespace utility;
 
-bool OrmProxy::SelectFromDB(const std::string &_strTable, OrmDBCallBack *callback)
+bool OrmProxy::SelectFromDB(const std::string &strTable, OrmDBCallBack *callback)
 {
     char *sqlArr = SqliteDB::Instance()->GetSqlArray();
-    snprintf(sqlArr, SqliteDB::SQL_LEN, "SELECT * FROM %s;", _strTable.c_str());
+    snprintf(sqlArr, SqliteDB::SQL_LEN, "SELECT * FROM %s;", strTable.c_str());
     return SqliteDB::Instance()->ExecuteSqlEx(callback);
 }
 
-bool OrmProxy::SyncDataToDB(const std::string &_strTable, OrmDBCallBack *callback)
+bool OrmProxy::SyncDataToDB(const std::string &strTable, OrmDBCallBack *callback)
 {
     char *sqlArr = SqliteDB::Instance()->GetSqlArray();
-    size_t offset = snprintf(sqlArr, SqliteDB::SQL_LEN, "UPDATE %s SET ", _strTable.c_str());
+    size_t offset = snprintf(sqlArr, SqliteDB::SQL_LEN, "UPDATE %s SET ", strTable.c_str());
     
     size_t i = 0;
     for ( auto &elem : _objFieldType ) {
@@ -158,17 +158,17 @@ bool OrmProxy::SyncDataToDB(const std::string &_strTable, OrmDBCallBack *callbac
     return SqliteDB::Instance()->ExecuteSqlEx(callback);
 }
 
-bool OrmProxy::InsertToDB(const std::string &_strTable, OrmDBCallBack *callback)
+bool OrmProxy::InsertToDB(const std::string &strTable, OrmDBCallBack *callback)
 {
     char *sqlArr = SqliteDB::Instance()->GetSqlArray();
-    snprintf(sqlArr, SqliteDB::SQL_LEN, "SELECT * FROM %s;", _strTable.c_str());
+    snprintf(sqlArr, SqliteDB::SQL_LEN, "INSERT INTO %s(id) VALUES(%llu);", strTable.c_str(), GetID());
     return SqliteDB::Instance()->ExecuteSqlEx(callback);
 }
 
-bool OrmProxy::DelFromDB(const std::string &_strTable, OrmDBCallBack *callback)
+bool OrmProxy::DelFromDB(const std::string &strTable, OrmDBCallBack *callback)
 {
     char *sqlArr = SqliteDB::Instance()->GetSqlArray();
-    size_t offset = snprintf(sqlArr, SqliteDB::SQL_LEN, "DELETE FROM %s WHERE id=%llu", _strTable.c_str(), GetID());
+    size_t offset = snprintf(sqlArr, SqliteDB::SQL_LEN, "DELETE FROM %s WHERE id=%llu", strTable.c_str(), GetID());
     if ( offset >= SqliteDB::SQL_LEN) {
         return false;
     }
@@ -194,51 +194,61 @@ void OrmProxy::AssignField(const char *column, const char *data)
                 {
                     std::string &strData = *reinterpret_cast<std::string *>(_objFieldPt[itr->first]);
                     strData = data;
+                    break;
                 }
             case AnyType_Int8:
                 {
                     Int8 &val = *reinterpret_cast<Int8 *>(_objFieldPt[itr->first]);
                     val = atoi(data);
+                    break;
                 }
             case AnyType_Int16:
                 {
                     Int16 &val = *reinterpret_cast<Int16 *>(_objFieldPt[itr->first]);
                     val = atoi(data);
+                    break;
                 }
             case AnyType_UInt16:
                 {
                     UInt16 &val = *reinterpret_cast<UInt16 *>(_objFieldPt[itr->first]);
                     val = atoi(data);
+                    break;
                 }
             case AnyType_Int32:
                 {
                     Int32 &val = *reinterpret_cast<Int32 *>(_objFieldPt[itr->first]);
                     val = atoi(data);
+                    break;
                 }
             case AnyType_UInt32:
                 {
                     UInt32 &val = *reinterpret_cast<UInt32 *>(_objFieldPt[itr->first]);
                     val = atoi(data);
+                    break;
                 }
             case AnyType_Int64:
                 {
                     Int64 &val = *reinterpret_cast<Int64 *>(_objFieldPt[itr->first]);
                     val = StringUtil::ConvertToValue<Int64>(data);
+                    break;
                 }
             case AnyType_UInt64:
                 {
                     UInt64 &val = *reinterpret_cast<UInt64 *>(_objFieldPt[itr->first]);
                     val = StringUtil::ConvertToValue<UInt64>(data);
+                    break;
                 }
             case AnyType_Real32:
                 {
                     Real32 &val = *reinterpret_cast<Real32 *>(_objFieldPt[itr->first]);
                     val = StringUtil::ConvertToValue<Real32>(data);
+                    break;
                 }
             case AnyType_Real64:
                 {
                     Real64 &val = *reinterpret_cast<Real64 *>(_objFieldPt[itr->first]);
                     val = StringUtil::ConvertToValue<Real64>(data);
+                    break;
                 }
             default:	
                 break;

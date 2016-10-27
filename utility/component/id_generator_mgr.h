@@ -22,9 +22,8 @@
 
 enum GeneratorType
 {
-    GeneratorType_Begin,
-
-    GeneratorType_BookMark, // 书签
+    GeneratorType_Begin = 1,
+    GeneratorType_BookMark = GeneratorType_Begin, // 书签
 
     GeneratorType_End
 };
@@ -45,7 +44,9 @@ public:
     bool Init();
     UInt64 GenID(GeneratorType type);
 
-    IDGeneratorSptr CreateGenerator(GeneratorType type);
+    IDGeneratorSptr FindGenerator(UInt32 type);
+
+    IDGeneratorSptr CreateGenerator(UInt32 type);
 private:
     std::map<UInt32, IDGeneratorSptr> _generators;
 }; /* -----  end of class IDGeneratorMgr  ----- */

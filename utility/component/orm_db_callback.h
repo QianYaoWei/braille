@@ -106,7 +106,7 @@ public:
 
     bool Empty() { return _tlist.empty(); }
 
-    int SelectResult(void *user,  int argc,  char **argv,  char **azColName)  
+    virtual int SelectResult(void *user,  int argc,  char **argv,  char **azColName)  
     {
         auto sptr = std::make_shared<T>();
         sptr->DBFieldRegister();
@@ -144,7 +144,7 @@ public:
 
     bool Empty() { return _tlist.empty(); }
 
-    int SelectResult(void *user,  int argc,  char **argv,  char **azColName)  
+    virtual int SelectResult(void *user,  int argc,  char **argv,  char **azColName)  
     {
         auto pt = new T;
         pt->DBFieldRegister();
