@@ -1,6 +1,6 @@
 CREATE TABLE book_marks (
     id BIGINT PRIMARY KEY, 
-    path TEXT, 
+    bookpath TEXT, 
     mark_pos INTEGER DEFAULT 0, -- 书签跳转位置
     descri CHARACTER(20), -- 书签描述信息
     create_time TIMESTAMP -- 创建时间

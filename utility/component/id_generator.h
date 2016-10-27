@@ -33,7 +33,7 @@ public:
     virtual void DBFieldRegister();
 
 private:
-    DEFINE_SETTER_GETTER(UInt64, _curID, 1);
+    GETTER_SETTER_DEF(UInt64, _curID, 1);
 }; /* -----  end of class IDGenerator  ----- */
 
 typedef std::shared_ptr<IDGenerator> IDGeneratorSptr;

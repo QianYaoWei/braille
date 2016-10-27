@@ -47,6 +47,8 @@ public:
 
     virtual void OnFailed() {}
 
+    virtual void OnDone() {}
+
     virtual CallBackType GetType()
     {
         return CallBackType_Normal;

@@ -67,7 +67,7 @@ protected:
 typedef std::shared_ptr<OrmProxy> OrmProxySptr;
 
 
-#define DEFINE_SETTER_GETTER(type, attr, def) \
+#define GETTER_SETTER(type, attr) \
 public: \
     const type &Get##attr() \
     { \
@@ -79,5 +79,21 @@ public: \
         attr = el; \
     } \
 private: \
+    type attr; \
+public:
+
+
+#define GETTER_SETTER_DEF(type, attr, def) \
+public: \
+    const type &Get##attr() \
+    { \
+        return attr; \
+    } \
+ \
+    void Set##attr(const type &el) \
+    { \
+        attr = el; \
+    } \
+protected: \
     type attr {def}; \
 public:

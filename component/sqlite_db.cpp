@@ -11,12 +11,14 @@ int DBCallbackFunc(void *user,  int argc,  char **argv,  char **azColName)
     }
 
     OrmDBCallBack *callback = reinterpret_cast<OrmDBCallBack *>(user);
-
     if (callback->GetType() == CallBackType_Select) {
         SelectOrmDBCallBackBase *callbackBase = dynamic_cast<SelectOrmDBCallBackBase *>(callback);
         if (callbackBase != nullptr) {
             callbackBase->SelectResult(user, argc, argv, azColName);
         }
+    }
+    else {
+        callback->OnDone();
     }
 
     return 0;
